@@ -1,7 +1,9 @@
 require "aliyun/cloudpush/version"
+require "aliyun/cloudpush/config"
+require "aliyun/cloudpush/client"
 
 module Aliyun
   module Cloudpush
-    # Your code goes here...
+    ENDPOINT = "https://cloudpush.aliyuncs.com"
   end
 end

@@ -7,6 +7,13 @@ require 'rest-client'
 module Aliyun
   module Cloudpush
     class Client
+      attr_reader :app_key, :access_key_id, :access_key_secret
+
+      def initialize(app_key, access_key_id, access_key_secret)
+        @access_key_id = access_key_id
+        @access_key_secret = access_key_secret
+        @app_key = app_key
+      end
 
       def push(employee_id, title, body)
         params = {
@@ -22,7 +29,7 @@ module Aliyun
         def default_push_params
           {
             "Action": "Push",
-            "AppKey": Aliyun::Cloudpush.app_key,
+            "AppKey": self.app_key,
             "Target": "ACCOUNT",
             "DeviceType": "ALL",
             "PushType": "NOTICE",
@@ -37,7 +44,7 @@ module Aliyun
             'Format': "json",
             'RegionId': "cn-hangzhou",
             'Version': "2016-08-01",
-            'AccessKeyId': Aliyun::Cloudpush.access_key_id,
+            'AccessKeyId': self.access_key_id,
             'SignatureMethod': "HMAC-SHA1",
             'SignatureVersion': "1.0",
             'SignatureNonce': (rand * 1_000_000_000).to_s,
@@ -52,7 +59,7 @@ module Aliyun
 
         def signature(str)
           Base64.strict_encode64(
-            OpenSSL::HMAC.digest('sha1', "#{Aliyun::Cloudpush.access_key_secret}&", str)
+            OpenSSL::HMAC.digest('sha1', "#{self.access_key_secret}&", str)
           )
         end
 
@@ -61,6 +68,8 @@ module Aliyun
           s = signature(params_str('POST', p))
           res = RestClient.post(ENDPOINT, p.merge('Signature': s))
           JSON.parse(res)
+        rescue RestClient::ExceptionWithResponse =>e
+          puts e.response
         end
     end
   end

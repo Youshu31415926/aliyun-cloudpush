@@ -1,5 +1,4 @@
 require "aliyun/cloudpush/version"
-require "aliyun/cloudpush/config"
 require "aliyun/cloudpush/client"
 
 module Aliyun

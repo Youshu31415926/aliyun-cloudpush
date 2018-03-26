@@ -7,12 +7,12 @@ module Aliyun
         yield self.config ||= Config.new
       end
 
-      def app_key
-        @app_key ||= config.app_key
+      def default_client
+        @client ||= Client.new(app_key, access_key_id, access_key_secret)
       end
 
-      def app_secret
-        @app_secret ||= config.app_secret
+      def app_key
+        @app_key ||= config.app_key
       end
 
       def access_key_id
@@ -25,7 +25,7 @@ module Aliyun
     end
 
     class Config
-      attr_accessor :app_key, :app_secret, :access_key_id, :access_key_secret
+      attr_accessor :app_key, :access_key_id, :access_key_secret
     end
   end
 end

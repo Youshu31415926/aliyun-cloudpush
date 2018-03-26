@@ -22,7 +22,19 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+push_client = Aliyun::Cloudpush::Client.new('app_key', 'access_key_id', 'acess_key_secret')
+push_client.push('acccount_id', 'title', 'conttent')
+
+
+# Or use global config
+Aliyun::Cloudpush.configure do |config|
+  config.app_key = 'app_key'
+  config.access_key_id = 'access_key_id'
+  config.access_key_secret = 'acess_key_secret'
+end
+Aliyun::Cloudpush.default_client.push('acccount_id', 'title', 'conttent')
+```
 
 ## Development
 

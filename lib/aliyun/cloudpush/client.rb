@@ -53,7 +53,7 @@ module Aliyun
         end
 
         def params_str(action, params)
-          str = params.sort.map { |k, v| [CGI.escape(k.to_s), CGI.escape(v.to_s)].join('=') }.join('&')
+          str = params.sort.map { |k, v| [CGI.escape(k.to_s), escape(v.to_s)].join('=') }.join('&')
           "#{action}&#{CGI.escape('/')}&#{CGI.escape(str)}"
         end
 
@@ -70,6 +70,12 @@ module Aliyun
           JSON.parse(res)
         rescue RestClient::ExceptionWithResponse =>e
           puts e.response
+        end
+
+        def escape(str)
+          # https://help.aliyun.com/document_detail/48047.html?spm=a2c4g.11186623.2.4.NsNXUo
+          # convert space " " to "%20" instead of "+"
+          CGI.escape(str).gsub("+", "%20")
         end
     end
   end

@@ -15,13 +15,13 @@ module Aliyun
         @app_key = app_key
       end
 
-      def push(employee_id, title, body)
+      def push(employee_id, title, body, options = {})
         params = {
           "TargetValue": employee_id,
           "Title": title,
           "Body": body,
         }
-        http_post(default_push_params.merge(params))
+        http_post(default_push_params.merge(params).merge(options))
       end
 
       private
